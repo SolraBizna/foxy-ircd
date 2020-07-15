@@ -1,3 +1,20 @@
+/*
+ * This file is part of Foxy IRCd, copyright ©2020 Solra Bizna.
+ *
+ * Foxy IRCd is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * Foxy IRCd is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * Foxy IRCd. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 //! The functions in this module are either questions or parsers. Questions
 //! are yes-or-no questions about a single character. Parsers attempt to parse
 //! an input slice in a certain format, and return `Some(..., rest of line)` if
