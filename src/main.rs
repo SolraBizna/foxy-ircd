@@ -21,7 +21,26 @@ pub mod db;
 pub use db::*;
 pub mod case;
 pub use case::*;
+pub mod invocation;
+pub use invocation::*;
+pub mod connection;
+pub use connection::*;
 
 fn main() {
-    println!("Hello, world!");
+    let Invocation { mut runtime }
+    = match get_invocation(|x| println!("{}", x.peer_addr().unwrap())) {
+        Some(x) => x,
+        None => std::process::exit(1),
+    };
+    let (mut send_quit, mut recv_quit) = tokio::sync::mpsc::channel(1);
+    ctrlc::set_handler(move || {
+        let _ = send_quit.try_send("control-C");
+    }).unwrap();
+    let reason = runtime.block_on(async {
+        recv_quit.recv().await.unwrap()
+    });
+    eprintln!("\nShutting down server due to {}.", reason);
+    // Try to be patient and let ongoing tasks finish, but don't block for more
+    // than 15 seconds.
+    runtime.shutdown_timeout(std::time::Duration::new(15, 0));
 }
